@@ -132,6 +132,10 @@ async function main() {
         console.error(`Plan not found for ${coin}`);
         continue;
       }
+      if (parseFloat(plan.totalTargetAmount) === 0) {
+        console.error(`Total target amount is 0 for ${coin}`);
+        continue;
+      }
       const averagePrice = plan.totalInvestedInUSD / plan.totalTargetAmount;
       const quantity = plan.totalTargetAmount;
       const geckoParams = new URLSearchParams();
