@@ -1,4 +1,4 @@
-const { Spot } = require('@binance/connector');
+// const { Spot } = require('@binance/connector');
 const dotenv = require('dotenv');
 const crypto = require('crypto');
 const fs = require('fs');
@@ -19,7 +19,7 @@ async function getSubscriptionTransactionHistory() {
 
   const queryString = params.toString();
 
-  signature = crypto.sign(null, Buffer.from(queryString), {
+  const signature = crypto.sign(null, Buffer.from(queryString), {
     key: apiSecret,
     padding: crypto.constants.RSA_PKCS1_PSS_PADDING,
     saltLength: crypto.constants.RSA_PSS_SALTLEN_DIGEST
@@ -40,7 +40,8 @@ async function getSubscriptionTransactionHistory() {
   console.log(binanceData);
 }
 
-async function main() {
+async function sync() {
+
   const params = new URLSearchParams();
   params.append('timestamp', Date.now().toString());
   params.append('recvWindow', '60000');
@@ -50,7 +51,7 @@ async function main() {
 
   const queryString = params.toString();
 
-  signature = crypto.sign(null, Buffer.from(queryString), {
+  const signature = crypto.sign(null, Buffer.from(queryString), {
     key: apiSecret,
     padding: crypto.constants.RSA_PKCS1_PSS_PADDING,
     saltLength: crypto.constants.RSA_PSS_SALTLEN_DIGEST
@@ -181,6 +182,10 @@ async function main() {
       console.error(e);
     }
   }
+}
+
+async function main() {
+  await sync();
 }
 
 main().then(() => {}).catch((err) => {
