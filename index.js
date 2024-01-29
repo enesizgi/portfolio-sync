@@ -71,7 +71,6 @@ async function sync() {
     });
 
   const binanceData = await response.json();
-  console.log(binanceData);
 
   const coins = {
     bitcoin: {
@@ -121,6 +120,14 @@ async function sync() {
         planId: 7504684,
         targetAsset: 'AAVE'
       }
+    },
+    monero: {
+      portfolio: '10010982',
+      transaction: '75043188',
+      binanceAutoInvest: {
+        planId: 7684784,
+        targetAsset: 'XMR'
+      }
     }
   };
 
@@ -133,12 +140,13 @@ async function sync() {
         console.error(`Plan not found for ${coin}`);
         continue;
       }
+      let averagePrice = plan.totalInvestedInUSD / plan.totalTargetAmount;
+      let quantity = plan.totalTargetAmount;
       if (parseFloat(plan.totalTargetAmount) === 0) {
+        averagePrice = 0;
+        quantity = 0;
         console.error(`Total target amount is 0 for ${coin}`);
-        continue;
       }
-      const averagePrice = plan.totalInvestedInUSD / plan.totalTargetAmount;
-      const quantity = plan.totalTargetAmount;
       const geckoParams = new URLSearchParams();
       geckoParams.append('portfolio_coin_transaction[price]', averagePrice.toString());
       // geckoParams.append('preview_spent_input', '999');
