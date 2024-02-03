@@ -147,12 +147,13 @@ async function sync() {
         quantity = 0;
         console.error(`Total target amount is 0 for ${coin}`);
       }
+      const totalFees = parseFloat(plan.totalInvestedInUSD) * 0.002;
       const geckoParams = new URLSearchParams();
       geckoParams.append('portfolio_coin_transaction[price]', averagePrice.toString());
       // geckoParams.append('preview_spent_input', '999');
       geckoParams.append('portfolio_coin_transaction[quantity]', quantity);
       // geckoParams.append('portfolio_coin_transaction[transaction_timestamp]', '2024-01-14T00:26:00.000Z');
-      // geckoParams.append('portfolio_coin_transaction[fees]', '0.0');
+      geckoParams.append('portfolio_coin_transaction[fees]', totalFees.toString());
       geckoParams.append('portfolio_coin_transaction[notes]', notes);
       // geckoParams.append('portfolio_coin_transaction[transaction_type]', 'buy');
       // geckoParams.append('portfolio_coin_transaction[coin_id]', '');
